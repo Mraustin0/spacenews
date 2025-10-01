@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - SpaceNew</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=The+Seasons:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #080b11;
+      color: #f5f5f5;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(18, 20, 28, 0.92);
+      backdrop-filter: blur(14px);
+      padding: 16px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 120;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-left,
+    .nav-center,
+    .nav-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-left {
+      gap: 12px;
+    }
+
+    .nav-left img {
+      height: 28px;
+    }
+
+    .nav-left .logo {
+      font-family: 'The Seasons', serif;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f5f5f5;
+      text-decoration: none;
+    }
+
+    .nav-center {
+      gap: 24px;
+    }
+
+    .nav-center a {
+      color: rgba(245, 245, 245, 0.84);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-center a:hover,
+    .nav-center a.active {
+      color: #f87171;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropbtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dropbtn::after {
+      content: '\25BE';
+      font-size: 11px;
+      transition: transform 0.2s ease;
+    }
+
+    .dropdown:hover .dropbtn::after {
+      transform: rotate(-180deg);
+    }
+
+    .dropdown-content {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      background: rgba(14, 16, 24, 0.96);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      min-width: 190px;
+      padding: 10px 0;
+      box-shadow: 0 18px 36px rgba(0,0,0,0.45);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+      z-index: 200;
+    }
+
+    .dropdown:hover .dropdown-content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 10px 18px;
+      color: rgba(245,245,245,0.78);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .dropdown-content a:hover {
+      background: rgba(248,113,113,0.12);
+      color:#f87171;
+    }
+
+    .nav-right {
+      gap: 16px;
+    }
+
+    .nav-right span {
+      color: rgba(245,245,245,0.68);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-right a {
+      color: rgba(245,245,245,0.84);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-right a:hover {
+      border-color: rgba(248,113,113,0.6);
+      color: #f87171;
+    }
+
+    .nav-right .primary-action {
+      border-color: rgba(248,113,113,0.65);
+      color: #f87171;
+    }
+
+    .nav-right .primary-action:hover {
+      background: #f87171;
+      color: #111;
+    }
+
+    .auth-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 16px;
+    }
+
+    .login-container {
+      background: rgba(17, 19, 27, 0.88);
+      padding: 40px 36px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+      width: 100%;
+      max-width: 420px;
+      backdrop-filter: blur(10px);
+    }
+
+    .login-container h1 {
+      font-family: 'The Seasons', serif;
+      margin: 0 0 20px 0;
+      text-align: center;
+      font-size: 28px;
+      letter-spacing: -0.01em;
+    }
+
+    .login-container label {
+      display: block;
+      margin-top: 18px;
+      font-size: 14px;
+      color: rgba(245,245,245,0.72);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 10px;
+      background: rgba(12, 14, 20, 0.9);
+      color: #f5f5f5;
+      transition: border-color 0.2s ease;
+    }
+
+    .login-container input:focus {
+      outline: none;
+      border-color: rgba(248,113,113,0.6);
+    }
+
+    .login-container button {
+      margin-top: 26px;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 999px;
+      background: #f87171;
+      color: #111;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .login-container button:hover {
+      background: #ef4444;
+    }
+
+    .extra-links {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
+      color: rgba(245,245,245,0.7);
+    }
+
+    .extra-links a {
+      color: #f87171;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+      }
+      .nav-center, .nav-right {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+      }
+      .nav-right {
+        justify-content: flex-end;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .auth-main {
+        padding: 60px 12px;
+      }
+      .login-container {
+        padding: 32px 24px;
+      }
+    }
+
+    .breadcrumb {
+      max-width: 420px;
+      margin: 24px auto 0 auto;
+      padding: 0 16px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .breadcrumb a {
+      color: rgba(245, 245, 245, 0.55);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .breadcrumb a:hover {
+      color: #ffffff;
+    }
+
+    .breadcrumb span {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .site-footer {
+      margin-top: 40px;
+      padding: 24px 16px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      color: rgba(245,245,245,0.6);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+    }
+
+    .site-footer a {
+      color: rgba(245,245,245,0.75);
+      text-decoration: none;
+    }
+
+    .site-footer a:hover {
+      color: #f87171;
+    }
+
+    .auth-alert {
+      margin-bottom: 18px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(248,113,113,0.4);
+      background: rgba(248,113,113,0.12);
+      color: #fca5a5;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
+      <a href="{{ url_for('index') }}" class="logo">SpaceNew</a>
+    </div>
+    <div class="nav-center">
+      <a href="{{ url_for('index') }}">Home</a>
+      <div class="dropdown">
+        <a href="{{ url_for('apod_page') }}" class="dropbtn">APOD</a>
+        <div class="dropdown-content">
+          <a href="{{ url_for('apod_page') }}">APOD</a>
+          <a href="{{ url_for('apod_gallery_page') }}">APOD Gallery</a>
+        </div>
+      </div>
+      <a href="{{ url_for('mars_gallery') }}">Mars Gallery</a>
+      <a href="{{ url_for('my_gallery') }}">My Gallery</a>
+    </div>
+    <div class="nav-right">
+      {% if current_user %}
+      <span>Hello, {{ current_user.username }}</span>
+      <a href="{{ url_for('logout') }}">LOG OUT</a>
+      {% else %}
+      <a href="{{ url_for('login') }}">LOG IN</a>
+      <a href="{{ url_for('register') }}" class="primary-action">Register</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="{{ url_for('index') }}">Home</a>
+    <span>/</span>
+    <span>LOG IN</span>
+  </div>
+
+  <main class="auth-main">
+    <div class="login-container">
+      {% if error %}
+      <div class="auth-alert" role="alert">
+        {{ error }}
+      </div>
+      {% endif %}
+      <h1>LOG IN</h1>
+      <form method="POST" action="{{ url_for('login') }}">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">LOG IN</button>
+      </form>
+      <div class="extra-links">
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2024 SpaceNew — sign in to sync your saved galleries.</p>
+  </footer>
+</body>
+</html>

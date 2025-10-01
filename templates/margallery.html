@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mars Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=The+Seasons:wght@700&display=swap" rel="stylesheet">
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'The Seasons', serif;
+        }
+        body, p, a, span, div, label, button {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+        }
+        body {
+            margin: 0;
+            background: #080b11;
+            color: #f5f5f5;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(18, 20, 28, 0.92);
+            backdrop-filter: blur(14px);
+            padding: 16px 32px;
+            position: sticky;
+            top: 0;
+            z-index: 120;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        .nav-left {
+            gap: 12px;
+        }
+        .nav-left img {
+            height: 28px;
+        }
+        .nav-left .logo {
+            font-family: 'The Seasons', serif;
+            font-size: 18px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #f5f5f5;
+            text-decoration: none;
+        }
+        .nav-center {
+            gap: 24px;
+        }
+        .nav-center a {
+            color: rgba(245, 245, 245, 0.84);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .nav-center a:hover,
+        .nav-center a.active {
+            color: #f87171;
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropbtn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dropbtn::after {
+            content: '\25BE';
+            font-size: 11px;
+            transition: transform 0.2s ease;
+        }
+        .dropdown:hover .dropbtn::after {
+            transform: rotate(-180deg);
+        }
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            background: rgba(14, 16, 24, 0.96);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            min-width: 190px;
+            padding: 10px 0;
+            box-shadow: 0 18px 36px rgba(0,0,0,0.45);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+            z-index: 200;
+        }
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 18px;
+            color: rgba(245,245,245,0.78);
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        .dropdown-content a:hover {
+            background: rgba(248,113,113,0.12);
+            color:#f87171;
+        }
+        .nav-right {
+            gap: 16px;
+        }
+        .nav-right span {
+            color: rgba(245,245,245,0.68);
+            font-size: 13px;
+            letter-spacing: 0.05em;
+        }
+        .nav-right a {
+            color: rgba(245,245,245,0.84);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+        .nav-right a:hover {
+            border-color: rgba(248,113,113,0.6);
+            color: #f87171;
+        }
+        .nav-right .primary-action {
+            border-color: rgba(248,113,113,0.65);
+            color: #f87171;
+        }
+        .nav-right .primary-action:hover {
+            background: #f87171;
+            color: #111;
+        }
+        @media (max-width: 900px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+            .nav-center, .nav-right {
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 100%;
+            }
+            .nav-right {
+                justify-content: flex-end;
+            }
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 24px auto 0 auto;
+            padding: 0 20px;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: rgba(245, 245, 245, 0.55);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #ffffff;
+        }
+
+        .breadcrumb span {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .site-footer {
+            margin-top: 60px;
+            padding: 28px 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+            color: rgba(245,245,245,0.6);
+            font-size: 13px;
+            letter-spacing: 0.05em;
+        }
+
+        .site-footer a {
+            color: rgba(245,245,245,0.75);
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            color: #f87171;
+        }
+        /* Main content styles */
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        main h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+        }
+        /* Layout for gallery and filter panel */
+        .content-flex {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .gallery-card {
+            background-color: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            transition: transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            color: #fff;
+            text-decoration: none;
+        }
+        .gallery-card:link,
+        .gallery-card:visited {
+            color: #fff;
+            text-decoration: none;
+        }
+        .gallery-card:hover {
+            transform: scale(1.03);
+        }
+        .gallery-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        .gallery-card .date {
+            margin: 0;
+            padding: 10px 15px 12px 15px;
+            font-size: 1rem;
+            color: #bbb;
+            background: #181818;
+            text-align: center;
+        }
+        /* Filter panel styles */
+        .filter-panel {
+            background: #181818;
+            border-radius: 10px;
+            padding: 24px 18px;
+            flex: 0 0 280px;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.7);
+            color: #fff;
+            font-size: 1rem;
+        }
+        .filter-panel h2 {
+            font-size: 1.3rem;
+            margin: 0 0 18px 0;
+            color: #fff;
+            text-align: left;
+            letter-spacing: 1px;
+        }
+        .filter-form label {
+            display: block;
+            margin-bottom: 6px;
+            color: #aaa;
+            font-size: 0.98rem;
+        }
+        .filter-form select,
+        .filter-form input[type="number"],
+        .filter-form input[type="date"] {
+            width: 100%;
+            background: #222;
+            color: #fff;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 7px 10px;
+            margin-bottom: 18px;
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 900px) {
+            .content-flex {
+                gap: 28px;
+            }
+
+            .filter-panel {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+        }
+        .filter-form button.filter-btn {
+            background: #d32f2f;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        .filter-form button.filter-btn:hover {
+            background: #b71c1c;
+        }
+
+        .status-banner {
+            margin-bottom: 20px;
+            padding: 14px 18px;
+            border-radius: 8px;
+            background: rgba(248, 113, 113, 0.12);
+            border: 1px solid rgba(248, 113, 113, 0.4);
+            color: #ffb4b4;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
+            <a href="{{ url_for('index') }}" class="logo">SpaceNews</a>
+        </div>
+        <div class="nav-center">
+            <a href="{{ url_for('index') }}">Home</a>
+            <div class="dropdown">
+                <a href="{{ url_for('apod_page') }}" class="dropbtn">APOD</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('apod_page') }}">APOD</a>
+                    <a href="{{ url_for('apod_gallery_page') }}">APOD Gallery</a>
+                </div>
+            </div>
+            <a href="{{ url_for('mars_gallery') }}" class="active">Mars Gallery</a>
+            <a href="{{ url_for('my_gallery') }}">My Gallery</a>
+        </div>
+        <div class="nav-right">
+        {% if current_user %}
+        <span>Hello, {{ current_user.username }}</span>
+            <a href="{{ url_for('logout') }}">LOG OUT</a>
+            {% else %}
+            <a href="{{ url_for('login') }}">LOG IN</a>
+            <a href="{{ url_for('register') }}" class="primary-action">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="breadcrumb">
+        <a href="{{ url_for('index') }}">Home</a>
+        <span>/</span>
+        <span>Mars Gallery</span>
+    </div>
+    <main>
+        <h1>MARS GALLERY</h1>
+        {% if error_message %}
+        <div class="status-banner">{{ error_message }}</div>
+        {% endif %}
+        <div class="content-flex">
+            <div style="flex:1 1 0%;">
+                {% if mars_images %}
+                <div class="gallery-grid">
+                    {% for image in mars_images %}
+                    <a class="gallery-card" href="{{ url_for('mars_detail', url=image.url, title=image.title, date=image.date, rover=image.rover, camera=image.camera_code) }}">
+                        <img src="{{ image.url }}" alt="{{ image.title }}">
+                        <div class="date">
+                            {{ image.date if image.date else image.title }}
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p style="text-align:center; margin-top:40px; color:#bbb;">No images available for this rover.</p>
+                {% endif %}
+            </div>
+            <aside class="filter-panel">
+              <form class="filter-form" method="get" action="{{ url_for('mars_gallery') }}">
+                <!-- Rover -->
+                <label for="rover">Rover:</label>
+                <select name="rover" id="rover">
+                  {% for r in rovers %}
+                    <option value="{{ r }}" {% if current_rover==r %}selected{% endif %}>{{ r.title() }}</option>
+                  {% endfor %}
+                </select>
+
+                <!-- Earth Date -->
+                <label for="earth_date">Earth Date:</label>
+                <input type="date" name="earth_date" id="earth_date" value="{{ current_earth_date if current_earth_date else '' }}">
+
+                <!-- Camera -->
+                <label for="camera">Camera:</label>
+                <select name="camera" id="camera">
+                  <option value="">All</option>
+                  {% for c in cameras %}
+                    <option value="{{ c }}" {% if current_camera==c %}selected{% endif %}>{{ c.upper() }}</option>
+                  {% endfor %}
+                </select>
+
+                <!-- Sort -->
+                <label for="sort">Sort:</label>
+                <select name="sort" id="sort">
+                  <option value="desc" {% if sort=='desc' %}selected{% endif %}>Newest → Oldest</option>
+                  <option value="asc" {% if sort=='asc' %}selected{% endif %}>Oldest → Newest</option>
+                </select>
+
+                <button type="submit" class="filter-btn">Apply</button>
+              </form>
+            </aside>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>© 2024 SpaceNew — Mars imagery courtesy of NASA Mars Rover API.</p>
+    </footer>
+</body>
+</html>
