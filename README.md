@@ -1,6 +1,9 @@
 # SpaceNews Web App
 project log 
    https://docs.google.com/spreadsheets/d/1P1gu9dyhWqUoSbVaSaiTorZLRpspsfxirRoNOp8Q8dk/edit?usp=sharing
+walkthrough
+   https://drive.google.com/drive/folders/17b-LDVNUXEbDwluSrhh9hz-n5GiEdP8W?usp=drive_link
+#(api nasa มีปัญหาครับ) 
 
 SpaceNews is a Flask-based dashboard that curates daily astronomy highlights, Mars rover photography, and live space headlines into a single experience. It combines multiple NASA data services, the Spaceflight News API, and a persistent favourites gallery so users can build their own cosmic collection.
 
